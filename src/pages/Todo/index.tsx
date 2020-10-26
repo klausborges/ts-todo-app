@@ -107,7 +107,9 @@ const Todo: React.FC = () => {
               checked={todo.completedAt !== null}
               onChange={() => handleToggleTodo(todo.id)}
             />
-            <span>{todo.description}</span>
+            <div>
+              <span>{todo.description}</span>
+            </div>
             <button type="button" onClick={() => handleRemoveTodo(todo.id)}>
               <FiTrash size={16} />
             </button>
@@ -127,7 +129,9 @@ const Todo: React.FC = () => {
               checked={todo.completedAt !== null}
               onChange={() => handleToggleTodo(todo.id)}
             />
-            <span>{todo.description}</span>
+            <div>
+              <span>{todo.description}</span>
+            </div>
             <button type="button" onClick={() => handleRemoveTodo(todo.id)}>
               <FiTrash size={16} />
             </button>
