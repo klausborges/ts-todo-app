@@ -1,5 +1,12 @@
-import React, { FormEvent, useCallback, useEffect, useState } from 'react';
+import React, {
+  FormEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { FiTrash, FiPlus } from 'react-icons/fi';
 
 import { Container, Form, TodoList, TodoHeader, TodoItem } from './styles';
 
@@ -66,6 +73,15 @@ const Todo: React.FC = () => {
     localStorage.setItem('@todo-app:todos', JSON.stringify(todos));
   }, [todos]);
 
+  const unfinishedTodos = useMemo(
+    () => todos.filter(todo => !todo.completedAt),
+    [todos],
+  );
+
+  const finishedTodos = useMemo(() => todos.filter(todo => todo.completedAt), [
+    todos,
+  ]);
+
   return (
     <Container>
       <Form onSubmit={handleAddTodo}>
@@ -74,7 +90,9 @@ const Todo: React.FC = () => {
           onChange={e => setNewTodo(e.target.value)}
           placeholder="What do you need to do?"
         />
-        <button type="submit">+</button>
+        <button type="submit">
+          <FiPlus size={28} />
+        </button>
       </Form>
 
       <TodoList>
@@ -82,7 +100,7 @@ const Todo: React.FC = () => {
           <strong>Tasks</strong>
         </TodoHeader>
 
-        {todos.map(todo => (
+        {unfinishedTodos.map(todo => (
           <TodoItem key={todo.id}>
             <input
               type="checkbox"
@@ -91,7 +109,27 @@ const Todo: React.FC = () => {
             />
             <span>{todo.description}</span>
             <button type="button" onClick={() => handleRemoveTodo(todo.id)}>
-              X
+              <FiTrash size={16} />
+            </button>
+          </TodoItem>
+        ))}
+      </TodoList>
+
+      <TodoList>
+        <TodoHeader>
+          <strong>Finished Tasks</strong>
+        </TodoHeader>
+
+        {finishedTodos.map(todo => (
+          <TodoItem key={todo.id}>
+            <input
+              type="checkbox"
+              checked={todo.completedAt !== null}
+              onChange={() => handleToggleTodo(todo.id)}
+            />
+            <span>{todo.description}</span>
+            <button type="button" onClick={() => handleRemoveTodo(todo.id)}>
+              <FiTrash size={16} />
             </button>
           </TodoItem>
         ))}
