@@ -131,3 +131,17 @@ export const UnfinishedTodos = styled.section`
   align-items: stretch;
   justify-content: space-between;
 `;
+
+export const AllDone = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  height: 30vh;
+
+  p {
+    flex: 0;
+    margin-top: 8px;
+  }
+`;
