@@ -65,6 +65,10 @@ export const TodoHeader = styled.header`
   display: flex;
   align-items: center;
   justify-content: stretch;
+
+  strong {
+    flex: 1;
+  }
 `;
 
 export const TodoItem = styled.div`
@@ -111,4 +115,13 @@ export const TodoItem = styled.div`
       background: ${shade(0.2, '#03d363')};
     }
   }
+`;
+
+export const Badge = styled.span`
+  border-radius: 24px;
+  background: #222;
+  color: #f1f1f1;
+  font-weight: 500;
+  font-size: 12px;
+  padding: 2px 8px;
 `;

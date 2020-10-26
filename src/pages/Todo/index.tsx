@@ -9,7 +9,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { formatDistanceToNow, formatDistance } from 'date-fns';
 import { FiTrash, FiPlus } from 'react-icons/fi';
 
-import { Container, Form, TodoList, TodoHeader, TodoItem } from './styles';
+import {
+  Container,
+  Form,
+  TodoList,
+  TodoHeader,
+  TodoItem,
+  Badge,
+} from './styles';
 
 interface TodoItem {
   id: string;
@@ -111,6 +118,7 @@ const Todo: React.FC = () => {
       <TodoList>
         <TodoHeader>
           <strong>Tasks</strong>
+          <Badge>{`${unfinishedTodos.length}/${todos.length}`}</Badge>
         </TodoHeader>
 
         {unfinishedTodos.map(todo => (
@@ -139,6 +147,7 @@ const Todo: React.FC = () => {
       <TodoList>
         <TodoHeader>
           <strong>Finished Tasks</strong>
+          <Badge>{`${finishedTodos.length}/${todos.length}`}</Badge>
         </TodoHeader>
 
         {finishedTodos.map(todo => (
