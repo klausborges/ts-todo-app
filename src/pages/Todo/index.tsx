@@ -18,6 +18,8 @@ interface TodoItem {
   completedAt: Date | null;
 }
 
+/* eslint-disable react-hooks/exhaustive-deps */
+
 const Todo: React.FC = () => {
   const [todos, setTodos] = useState<TodoItem[]>(() => {
     const storedTodos = localStorage.getItem('@todo-app:todos');
@@ -25,6 +27,7 @@ const Todo: React.FC = () => {
     return storedTodos ? JSON.parse(storedTodos) : [];
   });
   const [newTodo, setNewTodo] = useState('');
+  const [updateTick, setUpdateTick] = useState(0);
 
   const handleAddTodo = useCallback(
     (e: FormEvent) => {
@@ -74,13 +77,22 @@ const Todo: React.FC = () => {
     localStorage.setItem('@todo-app:todos', JSON.stringify(todos));
   }, [todos]);
 
+  useEffect(() => {
+    const timerId = setInterval(() => {
+      setUpdateTick(t => t + 1);
+    }, 5000);
+
+    return () => clearInterval(timerId);
+  }, []);
+
   const unfinishedTodos = useMemo(
     () => todos.filter(todo => !todo.completedAt),
-    [todos],
+    [todos, updateTick],
   );
 
   const finishedTodos = useMemo(() => todos.filter(todo => todo.completedAt), [
     todos,
+    updateTick,
   ]);
 
   return (
