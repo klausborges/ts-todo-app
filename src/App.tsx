@@ -1,5 +1,14 @@
 import React from 'react';
 
-const App: React.FC = () => <div />;
+import Todo from './pages/Todo';
+
+import GlobalStyle from './styles/global';
+
+const App: React.FC = () => (
+  <>
+    <Todo />
+    <GlobalStyle />
+  </>
+);
 
 export default App;
