@@ -1,5 +1,5 @@
-import React, { useMemo, useState, useEffect } from 'react';
-import { FiTrash } from 'react-icons/fi';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
+import { FiTrash, FiChevronRight, FiChevronDown } from 'react-icons/fi';
 import { formatDistanceToNow, formatDistance } from 'date-fns';
 
 import {
@@ -33,6 +33,11 @@ const TodoList: React.FC<TodoListProps> = ({
   handleToggleTodo,
 }) => {
   const [updateTick, setUpdateTick] = useState(0);
+  const [collapseFinishedTodos, setCollapseFinishedTodos] = useState(false);
+
+  const handleCollapseFinishedTodos = useCallback(() => {
+    setCollapseFinishedTodos(state => !state);
+  }, []);
 
   const unfinishedTodos = useMemo(
     () => todos.filter(todo => !todo.completedAt),
@@ -87,11 +92,14 @@ const TodoList: React.FC<TodoListProps> = ({
 
       <FinishedTodos>
         <Header>
+          <button type="button" onClick={handleCollapseFinishedTodos}>
+            {collapseFinishedTodos ? <FiChevronRight /> : <FiChevronDown />}
+          </button>
           <strong>Finished Tasks</strong>
           <Badge>{`${finishedTodos.length}/${todos.length}`}</Badge>
         </Header>
 
-        <List>
+        <List collapsed={collapseFinishedTodos}>
           {finishedTodos.map(todo => (
             <Item key={todo.id}>
               <input

@@ -1,5 +1,9 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { shade } from 'polished';
+
+interface ListProps {
+  collapsed?: boolean;
+}
 
 export const Container = styled.div`
   min-width: 700px;
@@ -62,6 +66,26 @@ export const Header = styled.div`
   strong {
     flex: 1;
   }
+
+  button {
+    border: 0;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 18px;
+    height: 18px;
+    margin-right: 4px;
+
+    background: #b1b1d1;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background: ${shade(0.2, '#b1b1d1')};
+    }
+  }
 `;
 
 export const Badge = styled.span`
@@ -75,11 +99,17 @@ export const Badge = styled.span`
   padding: 2px 8px;
 `;
 
-export const List = styled.div`
+export const List = styled.div<ListProps>`
   max-height: 30vh;
   overflow: auto;
 
   padding: 0 8px;
+
+  ${props =>
+    props.collapsed &&
+    css`
+      display: none;
+    `}
 `;
 
 export const FinishedTodos = styled.section`
