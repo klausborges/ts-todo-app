@@ -6,6 +6,7 @@ import React, {
   useState,
 } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { formatDistanceToNow, formatDistance } from 'date-fns';
 import { FiTrash, FiPlus } from 'react-icons/fi';
 
 import { Container, Form, TodoList, TodoHeader, TodoItem } from './styles';
@@ -108,7 +109,13 @@ const Todo: React.FC = () => {
               onChange={() => handleToggleTodo(todo.id)}
             />
             <div>
-              <span>{todo.description}</span>
+              <span className="description">{todo.description}</span>
+              <span className="time">
+                {formatDistanceToNow(new Date(todo.createdAt), {
+                  addSuffix: true,
+                  includeSeconds: true,
+                })}
+              </span>
             </div>
             <button type="button" onClick={() => handleRemoveTodo(todo.id)}>
               <FiTrash size={16} />
@@ -130,7 +137,18 @@ const Todo: React.FC = () => {
               onChange={() => handleToggleTodo(todo.id)}
             />
             <div>
-              <span>{todo.description}</span>
+              <span className="description">{todo.description}</span>
+              <span className="time">
+                {todo.completedAt &&
+                  formatDistance(
+                    new Date(todo.completedAt),
+                    new Date(todo.createdAt),
+                    {
+                      addSuffix: true,
+                      includeSeconds: true,
+                    },
+                  )}
+              </span>
             </div>
             <button type="button" onClick={() => handleRemoveTodo(todo.id)}>
               <FiTrash size={16} />

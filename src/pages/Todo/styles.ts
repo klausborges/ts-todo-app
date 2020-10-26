@@ -82,6 +82,16 @@ export const TodoItem = styled.div`
     flex: 1;
     display: flex;
     align-items: center;
+
+    span.description {
+      flex: 1;
+      margin-right: 8px;
+    }
+
+    span.time {
+      margin-right: 8px;
+      font-size: 10px;
+    }
   }
 
   button {
