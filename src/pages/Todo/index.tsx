@@ -1,4 +1,4 @@
-import React, { FormEvent, useCallback, useState } from 'react';
+import React, { FormEvent, useCallback, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { Container, Form, TodoList, TodoHeader, TodoItem } from './styles';
@@ -11,7 +11,11 @@ interface TodoItem {
 }
 
 const Todo: React.FC = () => {
-  const [todos, setTodos] = useState<TodoItem[]>([]);
+  const [todos, setTodos] = useState<TodoItem[]>(() => {
+    const storedTodos = localStorage.getItem('@todo-app:todos');
+
+    return storedTodos ? JSON.parse(storedTodos) : [];
+  });
   const [newTodo, setNewTodo] = useState('');
 
   const handleAddTodo = useCallback(
@@ -34,6 +38,10 @@ const Todo: React.FC = () => {
     },
     [todos, newTodo],
   );
+
+  useEffect(() => {
+    localStorage.setItem('@todo-app:todos', JSON.stringify(todos));
+  }, [todos]);
 
   return (
     <Container>
