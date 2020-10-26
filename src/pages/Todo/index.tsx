@@ -39,6 +39,29 @@ const Todo: React.FC = () => {
     [todos, newTodo],
   );
 
+  const handleRemoveTodo = useCallback(
+    (id: string) => {
+      setTodos(todos.filter(todo => todo.id !== id));
+    },
+    [todos],
+  );
+
+  const handleToggleTodo = useCallback(
+    (id: string) => {
+      setTodos(
+        todos.map(todo =>
+          todo.id !== id
+            ? todo
+            : {
+                ...todo,
+                completedAt: todo.completedAt ? null : new Date(),
+              },
+        ),
+      );
+    },
+    [todos],
+  );
+
   useEffect(() => {
     localStorage.setItem('@todo-app:todos', JSON.stringify(todos));
   }, [todos]);
@@ -61,9 +84,15 @@ const Todo: React.FC = () => {
 
         {todos.map(todo => (
           <TodoItem key={todo.id}>
-            <input type="checkbox" checked={todo.completedAt !== null} />
+            <input
+              type="checkbox"
+              checked={todo.completedAt !== null}
+              onChange={() => handleToggleTodo(todo.id)}
+            />
             <span>{todo.description}</span>
-            <button type="button">X</button>
+            <button type="button" onClick={() => handleRemoveTodo(todo.id)}>
+              X
+            </button>
           </TodoItem>
         ))}
       </TodoList>
